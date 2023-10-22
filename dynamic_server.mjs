@@ -24,9 +24,9 @@ let searchContent;
 //database
 const db = new sqlite3.Database(path.join(__dirname, 'Covid.sqlite3'), sqlite3.OPEN_READONLY, (err) =>{
     if (err){
-        console.log("Database no");
+        console.log("You must be this tall to enter the database (6ft)");
     }else{
-        console.log("Database yes");
+        console.log("Welcome to our database. Don't break it or else......");
     }
 });
 
@@ -52,7 +52,7 @@ app.post('/search', (req, res) => {
     }else{
         //input error
         console.log('input error');
-        res.redirect(`https://www.youtube.com/watch?v=dQw4w9WgXcQ`);
+        res.status(404).send('Error 404: Page Not found');
     }
 
 
@@ -67,7 +67,7 @@ app.post('/search', (req, res) => {
     }else{
         //404 error
         console.log('redirect error');
-        res.redirect(`https://www.youtube.com/watch?v=dQw4w9WgXcQ`);
+        res.status(404).send('Error 404: Page Not found');
     }
 
 });
@@ -86,12 +86,12 @@ app.get('/searchState/:value', (req, res) => {
             res.status(200).type('html').send(response);
         });
     };
-    let query1 = 'SELECT total_at_risk FROM covidTable WHERE MMSA = ?';
+    let query1 = "SELECT total_at_risk FROM covidTable WHERE LOWER(MMSA) LIKE '%?" + "%'";
     db.get(query1, searching, (err, rows) => {
         console.log(rows);
         if (err || !rows) {
             console.log(err);
-            res.redirect(`https://www.youtube.com/watch?v=dQw4w9WgXcQ`);
+            res.status(404).send('Error 404: Page Not found');
         }else {
             otherData = rows['total_at_risk'];
             if (otherData !== null) {
@@ -101,17 +101,6 @@ app.get('/searchState/:value', (req, res) => {
     });
 
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -147,13 +136,13 @@ app.get('/searchHospitals/:value', (req, res) => {
     }else if (searching === "MedHosp"){
         query1 = 'SELECT * FROM covidTable WHERE hospitals > 10 AND hospitals <= 20;';
     }else if (searching === "HighHosp"){
-        query1 = 'SELECT * FROM covidTable WHERE hospitals > 20;';
+        query1 = "SELECT * FROM covidTable WHERE hospitals > 20 AND hospitals is not 'hospitals' AND hospitals is not 'NA' ORDER BY hospitals;";
     }
     db.all(query1, (err, rows) => {
         console.log(rows);
         if (err || !rows) {
             console.log(err);
-            res.redirect(`https://www.youtube.com/watch?v=dQw4w9WgXcQ`);
+            res.status(404).send('Error 404: Page Not found');
         }else {
             otherData = rows;
             if (otherData !== null) {
@@ -163,20 +152,6 @@ app.get('/searchHospitals/:value', (req, res) => {
     });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //Search by Total number of Risk
@@ -224,8 +199,6 @@ app.get('/searchRisk/:value', (req, res) => {
         }
     });
 });
-
-
 
 
 app.listen(port, () => {
