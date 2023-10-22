@@ -1,0 +1,115 @@
+body{
+    background-color: rgb(229, 231, 234);
+}
+
+/* Nav bar */
+.HeaderNav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(100px);
+    background: linear-gradient(rgba(80, 23, 193, 0.8), rgba(80, 23, 193, 0.8));
+    border-bottom: 5px solid rgba(255, 255, 255, .2);
+    z-index: 99;
+}
+.HeaderLogo{
+    color: white;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+.Navbar a{
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 35px;
+    transition: .3s;
+    line-height: 1.3;
+}
+
+.Navbar a:hover,
+.HeaderNav a:hover{
+    color: rgb(233, 99, 132);
+}
+
+@media only screen and (max-width: 340px){
+    .HeaderLogo{
+        font-size: 1em;
+    }
+    .Navbar a{
+        font-size: 15px;
+        margin-left: 25px;
+    }
+}
+
+
+
+.homeContent{
+    align-items: center;
+    text-align: center;
+    margin-top: 10em;
+}
+.covidTitle h1{
+    font-size: 3em;
+    font-weight: bold;
+}
+.covidTitle h4{
+    font-size: 1.3em;
+}
+
+
+
+
+.covidImg img{
+    width: 70%;
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+.covidContent,
+.InputSearch{
+    align-items: center;
+    text-align: center;
+    margin-top: 10em;
+}
+
+.InputSearch{
+    margin-left: 5em;
+    margin-right: 5em;
+}
+
+.RecentSearches h3{
+    margin-left: 3em;
+}
+
+.SubmitButton{
+    width: 100%;
+    font-size: 1.5em;
+    margin-bottom: 2em;
+}
+.SubmitButton input{
+    background-color: transparent;
+    border: 2px solid blueviolet;
+}
+
+.SubmitButton input:hover{
+    border: 2px solid orange;
+    cursor: pointer;
+}
+
+#Searchbar, #HospitalNum, #RiskNum{
+    display: none;
+}
