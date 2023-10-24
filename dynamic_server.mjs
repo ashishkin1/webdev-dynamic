@@ -36,6 +36,39 @@ app.get('/', (req, res) => {
     res.sendFile(`${root}/index.html`);
 });
 
+//Dynamic Search and a list of viewed data by the user
+app.get('/search', (req, res) => {
+    console.log('Working on Dyanmic Search...');
+    let otherData = null;
+    let finishAndSend = function() {
+        fs.readFile(path.join(root, 'search.html'), 'utf-8', (err, data) => {
+            let response;
+            let table_body = '';
+            otherData.forEach((Data) => {
+                let table_row;
+                table_row += "<option value='"+Data.MMSA+"'>"+Data.MMSA+"</option>";
+                table_body += table_row;
+            });
+            response = data.replace('$$TABLE_BODY$$', table_body);
+            res.status(200).type('html').send(response);
+        });
+    };
+
+
+    let query1 = 'SELECT MMSA FROM covidTable;';
+    db.all(query1, (err, rows) => {
+        console.log(rows);
+        if (err || !rows) {
+            res.status(404).send('Error 404: Page Not found');
+        }else {
+            otherData = rows;
+            if (otherData !== null) {
+                finishAndSend();
+            }
+        }
+    });
+});
+
 
 app.post('/search', (req, res) => {
 
@@ -81,19 +114,59 @@ app.get('/searchState/:value', (req, res) => {
     console.log(searching);
     let finishAndSend = function() {
         fs.readFile(path.join(template, 'searchState.html'), 'utf-8', (err, data) => {
-            let response = data.replace('$$State$$', searching);
-            response = response.replace('$$TotalRisk$$', otherData);
+            console.log(otherData);
+            let response = data.replace('$$State$$', "Search Results");
+
+
+            if (otherData.length >= 1){
+                response = response.replace('$$TABLE_CONTENT$$', 
+                `<table id="covidTable">
+                    <tr>
+                        <th>Location</th>
+                        <th>Learn More</th>
+                    </tr>
+                    $$TABLE_BODY$$
+                </table>`);
+
+                let table_body = '';
+                otherData.forEach((StateData) => {
+                    let table_row = '<tr>';
+                    table_row += '<td>' + StateData.MMSA + '</td>';
+                    table_row += "<td><a href='search.html'><button class='learnMoreButton'>Learn More</button></a></td>";
+                    table_row += '</tr>\n';
+                    table_body += table_row;
+                });
+                response = response.replace('$TABLE_BODY$', table_body);
+                res.status(200).type('html').send(response);
+            }else{ //error
+                response = response.replace('$$TABLE_CONTENT$$', "<h4>No results on: "+searching+"</h4>");
+                res.status(404).type('html').send(response);
+            }
+
+        });
+    };
+
+    let displayError = function() {
+        fs.readFile(path.join(root, 'search.html'), 'utf-8', (err, data) => {
+            let response;
+            let table_body = '';
+            otherData.forEach((Data) => {
+                let table_row;
+                table_row += "<option value='"+Data.MMSA+"'>"+Data.MMSA+"</option>";
+                table_body += table_row;
+            });
+            response = data.replace('$$TABLE_BODY$$', table_body);
             res.status(200).type('html').send(response);
         });
     };
-    let query1 = "SELECT total_at_risk FROM covidTable WHERE LOWER(MMSA) LIKE '%?" + "%'";
-    db.get(query1, searching, (err, rows) => {
-        console.log(rows);
+
+    let query1 = 'SELECT * FROM covidTable WHERE MMSA = ?';
+    db.all(query1, searching, (err, rows) => {
+        console.log("Show the error:"+rows);
         if (err || !rows) {
-            console.log(err);
             res.status(404).send('Error 404: Page Not found');
         }else {
-            otherData = rows['total_at_risk'];
+            otherData = rows;
             if (otherData !== null) {
                 finishAndSend();
             }
@@ -101,6 +174,17 @@ app.get('/searchState/:value', (req, res) => {
     });
 
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -117,7 +201,7 @@ app.get('/searchHospitals/:value', (req, res) => {
             let table_body = '';
             otherData.forEach((HospData) => {
                 let table_row = '<tr>';
-                table_row += '<td>' + HospData.MMSA + '</td>';
+                table_row += "<td><a href='search.html'><button class='learnMoreButton'>"+HospData.MMSA+"</button></a></td>";
                 table_row += '<td>' + HospData.hospitals + '</td>';
                 table_row += '<td>' + HospData.high_risk_per_hospital + '</td>';
                 table_row += '<td>' + HospData.icu_beds + '</td>';
@@ -132,9 +216,9 @@ app.get('/searchHospitals/:value', (req, res) => {
 
     let query1;
     if (searching === "LowHosp"){
-        query1 = 'SELECT * FROM covidTable WHERE hospitals <= 10;';
+        query1 = 'SELECT * FROM covidTable WHERE hospitals < 10 ORDER BY hospitals;';
     }else if (searching === "MedHosp"){
-        query1 = 'SELECT * FROM covidTable WHERE hospitals > 10 AND hospitals <= 20;';
+        query1 = 'SELECT * FROM covidTable WHERE hospitals >= 10 AND hospitals <= 20 ORDER BY hospitals;';
     }else if (searching === "HighHosp"){
         query1 = "SELECT * FROM covidTable WHERE hospitals > 20 AND hospitals is not 'hospitals' AND hospitals is not 'NA' ORDER BY hospitals;";
     }
@@ -154,6 +238,20 @@ app.get('/searchHospitals/:value', (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Search by Total number of Risk
 app.get('/searchRisk/:value', (req, res) => {
     let searching = req.params.value;
@@ -166,9 +264,9 @@ app.get('/searchRisk/:value', (req, res) => {
             let table_body = '';
             otherData.forEach((HospData) => {
                 let table_row = '<tr>';
-                table_row += '<td>' + HospData.MMSA + '</td>';
+                table_row += "<td><a href='search.html'><button class='learnMoreButton'>"+HospData.MMSA+"</button></a></td>";
                 table_row += '<td>' + HospData.total_at_risk + '</td>';
-                table_row += '<td>' + HospData.total_percent_at_risk + '%</td>';
+                table_row += '<td>' + HospData.total_percent_at_risk + '</td>';
                 table_row += '</tr>\n';
                 table_body += table_row;
             });
@@ -180,11 +278,11 @@ app.get('/searchRisk/:value', (req, res) => {
 
     let query1;
     if (searching === "LowRisk"){
-        query1 = 'SELECT * FROM covidTable WHERE total_at_risk <= 100000;';
+        query1 = 'SELECT * FROM covidTable WHERE total_at_risk < 100000 ORDER BY total_at_risk;';
     }else if (searching === "MedRisk"){
-        query1 = 'SELECT * FROM covidTable WHERE total_at_risk > 100000 AND total_at_risk <= 500000;';
+        query1 = 'SELECT * FROM covidTable WHERE total_at_risk >= 100000 AND total_at_risk <= 500000 ORDER BY total_at_risk;';
     }else if (searching === "HighRisk"){
-        query1 = 'SELECT * FROM covidTable WHERE total_at_risk > 500000;';
+        query1 = "SELECT * FROM covidTable WHERE total_at_risk > 500000 AND total_at_risk is not 'total_at_risk' ORDER BY total_at_risk;";
     }
     db.all(query1, (err, rows) => {
         console.log(rows);
@@ -199,6 +297,8 @@ app.get('/searchRisk/:value', (req, res) => {
         }
     });
 });
+
+
 
 
 app.listen(port, () => {

@@ -3,11 +3,11 @@
     "description": "Dynamic Server",
     "version": "1.0.0",
     "author": {
-        "name": "",
+        "name": "Anthony Shishkin (ashishkin1)",
         "email": ""
     },
-    "contributors": [],
-    "repository": {},
+    "contributors": ["Russel O.", "Anthony S.", "Francis T."],
+    "repository": {"directory": "https://github.com/ashishkin1/webdev-dynamic"},
     "dependencies": {
         "express": "^4.18.2",
         "sqlite3": "^5.1.6"
