@@ -146,45 +146,21 @@ app.get('/searchState/:value', (req, res) => {
         });
     };
 
-    let displayError = function() {
-        fs.readFile(path.join(root, 'search.html'), 'utf-8', (err, data) => {
-            let response;
-            let table_body = '';
-            otherData.forEach((Data) => {
-                let table_row;
-                table_row += "<option value='"+Data.MMSA+"'>"+Data.MMSA+"</option>";
-                table_body += table_row;
-            });
-            response = data.replace('$$TABLE_BODY$$', table_body);
-            res.status(200).type('html').send(response);
-        });
-    };
-
-    let query1 = 'SELECT * FROM covidTable WHERE MMSA = ?';
-    db.all(query1, searching, (err, rows) => {
-        console.log("Show the error:"+rows);
+    
+    db.all("SELECT * FROM covidTable WHERE LOWER(MMSA) LIKE "+"'%"+searching+"%'", (err, rows) => {
+        console.log('this is the params: '+ "'%"+searching+"%'");
+        console.log("Show the error:"+err);
         if (err || !rows) {
             res.status(404).send('Error 404: Page Not found');
         }else {
             otherData = rows;
+            console.log('this is the first checkpoint' + otherData);
             if (otherData !== null) {
                 finishAndSend();
             }
-        }
+            }
+        });
     });
-
-});
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -220,7 +196,7 @@ app.get('/searchHospitals/:value', (req, res) => {
     }else if (searching === "MedHosp"){
         query1 = 'SELECT * FROM covidTable WHERE hospitals >= 10 AND hospitals <= 20 ORDER BY hospitals;';
     }else if (searching === "HighHosp"){
-        query1 = "SELECT * FROM covidTable WHERE hospitals > 20 AND hospitals is not 'hospitals' AND hospitals is not 'NA' ORDER BY hospitals;";
+        query1 = "SELECT * FROM covidTable WHERE hospitals > 20 AND hospitals IS NOT 'hospitals' AND hospitals IS NOT 'NA' ORDER BY hospitals;";
     }
     db.all(query1, (err, rows) => {
         console.log(rows);
