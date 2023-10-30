@@ -96,8 +96,16 @@ body{
     text-align: left;
 }
 
-#Searchbar, #HospitalNum, #RiskNum{
+.searchbarHeader{
+    text-align: left;
+}
+
+#HospitalNum, #RiskNum{
     display: none;
+}
+
+#formRequired{
+    color: rgb(249, 100, 100);
 }
 
 .covidSectionTitle{
@@ -112,6 +120,11 @@ table{
     color: black;
     margin: 0 auto;
 }
+#covidStatus{
+    width: 1.5em;
+    height: 1.5em;
+    object-fit: cover;
+}
 
 
 
@@ -125,7 +138,6 @@ button{
     border: 4px solid blueviolet;
 }
 .learnMoreButton{
-    color: black;
     width: 100%;
     height: 100%;
     font-size: 0.9em;
@@ -161,4 +173,27 @@ button:hover{
 .user-name{
     margin-top: 30px;
     font-size: 30px;
+}
+
+
+/* Cards */
+.nextButton,
+.prevButton{
+    width: 6rem;
+}
+
+
+.boxResults{
+    padding: 1em;
+    margin: 1em;
+    border: 4px solid blueviolet;
+}
+
+
+
+.bRTitle{
+    font-size: 1.4em;
+    min-height: 10em;
+    border: 4px solid white;
+    word-break: break-all;
 }

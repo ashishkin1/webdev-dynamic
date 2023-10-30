@@ -5,7 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/foundation.css">
     <link rel="stylesheet" href="/css/styles.css">
-	<title>Search by Hospitals Numbers | Covid Geographic</title>
+    <!-- https://www.chartjs.org/docs/latest/ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<title>Info | Covid Geographic</title>
 </head>
 <body>
 
@@ -67,20 +69,23 @@
 
 
         <div class="covidSectionTitle">
-            <h1>$$State$$</h1>
-            <button class='prevButton'>Prev</button>
-            <button class='nextButton'>Next</button>
+            <h1>$$LOCATION_NAME$$</h1>
         </div>
-        <div class="grid-container">
-            <div class="covidTable grid-x grid-margin-x small-up-1 medium-up-3 large-up-5">
-                $$TABLE_BODY$$
-            </div>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="myChart">test</canvas>
         </div>
+
+        <div id="hiddenValuesName">$$NameLabel$$</div>
+
+        <div id="hiddenValuesData">$$DataLabel$$</div>
+
+
 
     </div>
 
-
     <script>
+
+
         //Drop down for Icons Options
         function dropDown(){
             var searchOptions = document.getElementById("ChooseOption");
@@ -135,8 +140,50 @@
                 document.getElementById("RiskNum").required = false;
             }
         }
-    </script>
 
+
+
+
+
+
+
+
+        // const ctx = document.getElementById('myChart');
+
+        // let nameTemp = document.getElementById('hiddenValuesName').innerHTML.toString();
+        // let dataTemp = document.getElementById('hiddenValuesData').innerHTML.toString().split(",");
+
+
+        // String.prototype.replaceAt = function(index, replacement) {
+        //     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+        // }
+
+        // for (let i = 0; i < dataTemp.length; i++){
+        //     dataTemp[i] = parseFloat(dataTemp[i]);
+        // }
+
+        // for (let i = 0; i < nameTemp.length; i++){
+        //     if (nameTemp[i] === "]"){
+        //         console.log(nameTemp[i]);
+        //         nameTemp.replaceAt(i+1, "!!")
+        //     }
+        // }
+
+        // console.log(nameTemp);
+
+        // new Chart(ctx, {
+        //     type: 'doughnut',
+        //     data: {
+        //         //Our data location names
+        //     labels: nameTemp,
+        //     datasets: [{
+        //         label: '# of Votes',
+        //         data: dataTemp, //Our data corresponds to our location names
+        //         borderWidth: 1
+        //     }]
+        //     }
+        // });
+    </script>
 
 </body>
 </html>

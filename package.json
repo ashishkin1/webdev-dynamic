@@ -4,12 +4,20 @@
     "version": "1.0.0",
     "author": {
         "name": "Anthony Shishkin (ashishkin1)",
-        "email": "shis4133@stthomas.edu"
+        "email": ""
     },
-    "contributors": ["Russel O.", "Anthony S.", "Francis T."],
-    "repository": {"directory": "https://github.com/ashishkin1/webdev-dynamic"},
+    "contributors": [
+        "Russel O.",
+        "Anthony S.",
+        "Francis T."
+    ],
+    "repository": {
+        "directory": "https://github.com/ashishkin1/webdev-dynamic"
+    },
     "dependencies": {
+        "chart.js": "^4.4.0",
         "express": "^4.18.2",
+        "puppeteer": "^21.4.1",
         "sqlite3": "^5.1.6"
     }
 }

@@ -21,37 +21,44 @@
 	<div class="covidContent">
 
         <div class="InputSearch">
-            <form action="/search" class="form grid-x grid-margin-x" method="post">
-                <div class="cell">
-                    <div class="cell">
+            <form action="/search" method="post">
+                <div class="form grid-x grid-margin-x">
+                    <!-- Search Location. This will appear on all dynamic routes -->
+                    <h4 class="cell searchbarHeader">Location: <span id="formRequired">*</span></h4>
+                    <div class="cell medium-6">
+                        <input id="Searchbar" list="input" name="Searchbar" type="text" placeholder="Search Location" required/>
+                        <datalist id="input">
+                            $$TABLE_SEARCHRESULT$$
+                        </datalist>
+                    </div>
+    
+    
+                    <div class="cell medium-6">
                         <select class="form-select" id="ChooseOption" name="ChooseOption" autocomplete="off" onchange="dropDown()" required>
-                            <option value="">(Select One)</option>
-                            <option value="searchState">State</option>
+                            <option value="searchState">Location</option>
                             <option value="searchHospitals">Hospitals</option>
                             <option value="searchRisk">Total Risk</option>
                         </select>
                     </div>
-
-                    <!-- Search State -->
-                    <input id="Searchbar" name="Searchbar" type="text" placeholder="Search" />
-
+    
+    
                     <!-- Search Hospital numbers -->
-                    <select class="form-select" id="HospitalNum" name="HospitalNum" autocomplete="off">
+                    <select class="cell form-select" id="HospitalNum" name="HospitalNum" autocomplete="off">
                         <option value="">(Select the Hospital Range)</option>
                         <option value="LowHosp">Less than 10</option>
                         <option value="MedHosp">10-20</option>
                         <option value="HighHosp">Greater than 20</option>
                     </select>
-
+    
                     <!-- Search by number of Risks -->
-                    <select class="form-select" id="RiskNum" name="RiskNum" autocomplete="off">
+                    <select class="cell form-select" id="RiskNum" name="RiskNum" autocomplete="off">
                         <option value="">(Select the Total Risk Range)</option>
                         <option value="LowRisk">Less than 100000</option>
                         <option value="MedRisk">100000-500000</option>
                         <option value="HighRisk">Greater than 500000</option>
                     </select>
                 </div>
-
+    
                 <div class="cell">
                     <button type="submit">Search</button>
                 </div>
@@ -60,8 +67,14 @@
 
         <div class="covidSectionTitle">
             <h1>$$State$$</h1>
+            <button class='prevButton'>Prev</button>
+            <button class='nextButton'>Next</button>
         </div>
-        $$TABLE_CONTENT$$
+        <div class="grid-container">
+            <div class="covidTable grid-x grid-margin-x small-up-1 medium-up-3 large-up-5">
+                $$TABLE_BODY$$
+            </div>
+        </div>
     </div>
 
 
@@ -77,8 +90,8 @@
             console.log("Value: "+value);
             if (value === "searchState"){
                 //console.log("State");
-                document.getElementById("Searchbar").style.display = 'block';
                 document.getElementById("Searchbar").required = true;
+                document.getElementById("formRequired").style.display = 'inline';
 
                 document.getElementById("HospitalNum").style.display = 'none';
                 document.getElementById("RiskNum").style.display = 'none';
@@ -92,9 +105,9 @@
                 document.getElementById("HospitalNum").style.display = 'block';
                 document.getElementById("HospitalNum").required = true;
 
-                document.getElementById("Searchbar").style.display = 'none';
                 document.getElementById("RiskNum").style.display = 'none';
                 document.getElementById("Searchbar").required = false;
+                document.getElementById("formRequired").style.display = 'none';
                 document.getElementById("RiskNum").required = false;
 
 
@@ -104,23 +117,27 @@
                 document.getElementById("RiskNum").style.display = 'block';
                 document.getElementById("RiskNum").required = true;
 
-                document.getElementById("Searchbar").style.display = 'none';
                 document.getElementById("HospitalNum").style.display = 'none';
                 document.getElementById("Searchbar").required = false;
+                document.getElementById("formRequired").style.display = 'none';
                 document.getElementById("HospitalNum").required = false;
 
 
 
             }else{ //Default
                 //Show none of them if none of them are selected. This is defaulted when the page first loads
-                document.getElementById("Searchbar").style.display = 'none';
                 document.getElementById("HospitalNum").style.display = 'none';
                 document.getElementById("RiskNum").style.display = 'none';
-                document.getElementById("Searchbar").required = false;
+
+                document.getElementById("Searchbar").required = true;
+                document.getElementById("formRequired").style.display = 'inline';
+
                 document.getElementById("HospitalNum").required = false;
                 document.getElementById("RiskNum").required = false;
             }
         }
     </script>
+
+
 </body>
 </html>
