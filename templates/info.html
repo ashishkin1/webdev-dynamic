@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/foundation.css">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="shortcut icon" type="x-icon" href="/images/COVID-19.png" />
     <!-- https://www.chartjs.org/docs/latest/ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<title>Info | Covid Geographic</title>
@@ -16,7 +17,7 @@
         <nav class="Navbar">
             <a href="/index.html">Home</a>
             <a href="/search">Search</a>
-            <a href="https://www.youtube.com/watch?v=uHgt8giw1LY">Support</a>
+            <a href="https://www.youtube.com/embed/uHgt8giw1LY?autoplay=1&mute=1">Support</a>
         </nav>
     </header>
 
@@ -62,36 +63,59 @@
                 </div>
     
                 <div class="cell">
-                    <button type="submit">Search</button>
+                    <button id="submitButton" type="submit">Search</button>
                 </div>
             </form>
         </div>
 
 
         <div class="covidSectionTitle">
-            <h1>$$LOCATION_NAME$$</h1>
+            <a href="javascript:history.back()"><button>Back</button></a>
+            <h1>Location: $$LOCATION_NAME$$</h1>
+            <h2>Total people at high risk in that area: <i>$$LOCATION_TOTAL$$</i></h2>
         </div>
-        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-            <canvas id="myChart">test</canvas>
-        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <center>
+            <h3>Total percentage at Risk</h3>
+            <div class="chart-container" style="position: relative; height:60vh; width:60vw">
+                <canvas id="TotalRisk"></canvas>
+            </div>
 
-        <div id="hiddenValuesName">$$NameLabel$$</div>
+            <br>
+            <br>
+            <br>
 
-        <div id="hiddenValuesData">$$DataLabel$$</div>
+            <h3>Hospitals VS. ICU Beds</h3>
+            <div class="chart-container" style="position: relative; height:60vh; width:60vw">
+                <canvas id="HospBed"></canvas>
+            </div>
 
+            <br>
+            <br>
+            <br>
 
+            <h3>High Risk Individuals per Hospitals VS. High Risk Individuals per ICU Beds</h3>
+            <div class="chart-container" style="position: relative; height:60vh; width:60vw">
+                <canvas id="HighRiskHospBed"></canvas>
+            </div>
+        </center>
 
     </div>
 
     <script>
-
-
         //Drop down for Icons Options
         function dropDown(){
             var searchOptions = document.getElementById("ChooseOption");
             var value = searchOptions.options[searchOptions.selectedIndex].value;
 
-            console.log("Value: "+value);
+            //console.log("Value: "+value);
             if (value === "searchState"){
                 //console.log("State");
                 document.getElementById("Searchbar").required = true;
@@ -141,49 +165,9 @@
             }
         }
 
-
-
-
-
-
-
-
-        // const ctx = document.getElementById('myChart');
-
-        // let nameTemp = document.getElementById('hiddenValuesName').innerHTML.toString();
-        // let dataTemp = document.getElementById('hiddenValuesData').innerHTML.toString().split(",");
-
-
-        // String.prototype.replaceAt = function(index, replacement) {
-        //     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
-        // }
-
-        // for (let i = 0; i < dataTemp.length; i++){
-        //     dataTemp[i] = parseFloat(dataTemp[i]);
-        // }
-
-        // for (let i = 0; i < nameTemp.length; i++){
-        //     if (nameTemp[i] === "]"){
-        //         console.log(nameTemp[i]);
-        //         nameTemp.replaceAt(i+1, "!!")
-        //     }
-        // }
-
-        // console.log(nameTemp);
-
-        // new Chart(ctx, {
-        //     type: 'doughnut',
-        //     data: {
-        //         //Our data location names
-        //     labels: nameTemp,
-        //     datasets: [{
-        //         label: '# of Votes',
-        //         data: dataTemp, //Our data corresponds to our location names
-        //         borderWidth: 1
-        //     }]
-        //     }
-        // });
     </script>
+
+    $$DisplayData$$
 
 </body>
 </html>

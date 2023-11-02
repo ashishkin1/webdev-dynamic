@@ -3,6 +3,15 @@ body{
     color: white;
 }
 
+#backLink{
+    color: rgb(207, 155, 255);
+    text-decoration: underline;
+}
+#backLink:hover{
+    color: orange;
+    text-decoration: underline;
+}
+
 /* Nav bar */
 .HeaderNav{
     position: fixed;
@@ -15,7 +24,7 @@ body{
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(100px);
-    background: linear-gradient(blueviolet, blueviolet);
+    background: linear-gradient(rgb(151, 71, 226), blueviolet);
     border-bottom: 5px solid rgba(255, 255, 255, .2);
     z-index: 99;
 }
@@ -130,22 +139,26 @@ table{
 
 button{
     font-size: 1.5em;
-    padding: 0.3em;
+    padding: 0.7em 2em;
     margin-bottom: 2em;
-    background-color: transparent;
+    background-color: rgb(98, 0, 189);
     color: white;
-    border-radius: 2%;
+    border-radius: 9px!important;
     border: 4px solid blueviolet;
+    transition: all 0.2s ease;
+}
+button:active{
+    transform: scale(0.96);
 }
 .learnMoreButton{
     width: 100%;
     height: 100%;
-    font-size: 0.9em;
-    padding: 0.4em;
+    font-size: 1em;
     margin-top: 2em;
 }
 button:hover{
     color: orange;
+    background-color: transparent;
     border: 4px solid orange;
     cursor: pointer;
 }
@@ -177,9 +190,12 @@ button:hover{
 
 
 /* Cards */
-.nextButton,
-.prevButton{
-    width: 6rem;
+button:disabled,
+button[disabled]{
+  border: 4px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor:default;
 }
 
 
@@ -192,8 +208,22 @@ button:hover{
 
 
 .bRTitle{
+    text-align: center;
     font-size: 1.4em;
     min-height: 10em;
     border: 4px solid white;
     word-break: break-all;
+}
+
+#errorList{
+    margin: 2em;
+    text-align: left;
+}
+
+
+
+.noResultImage{
+    width: 25rem;
+    height: 25rem;
+    object-fit: cover;
 }

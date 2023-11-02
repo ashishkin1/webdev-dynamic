@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/foundation.css">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="shortcut icon" type="x-icon" href="/images/COVID-19.png" />
 	<title>Search by Hospitals Numbers | Covid Geographic</title>
 </head>
 <body>
@@ -14,7 +15,7 @@
         <nav class="Navbar">
             <a href="/index.html">Home</a>
             <a href="/search">Search</a>
-            <a href="https://www.youtube.com/watch?v=uHgt8giw1LY">Support</a>
+            <a href="https://www.youtube.com/embed/uHgt8giw1LY?autoplay=1&mute=1">Support</a>
         </nav>
     </header>
 
@@ -60,23 +61,20 @@
                 </div>
     
                 <div class="cell">
-                    <button type="submit">Search</button>
+                    <button id="submitButton" type="submit">Search</button>
                 </div>
             </form>
         </div>
 
 
+        <!-- Results -->
         <div class="covidSectionTitle">
             <h1>$$State$$</h1>
-            <button class='prevButton'>Prev</button>
-            <button class='nextButton'>Next</button>
+            $$PREV_NEXTBUTTON$$
         </div>
         <div class="grid-container">
-            <div class="covidTable grid-x grid-margin-x small-up-1 medium-up-3 large-up-5">
-                $$TABLE_BODY$$
-            </div>
+            $$TABLE_BODY$$
         </div>
-
     </div>
 
 
@@ -86,7 +84,7 @@
             var searchOptions = document.getElementById("ChooseOption");
             var value = searchOptions.options[searchOptions.selectedIndex].value;
 
-            console.log("Value: "+value);
+            //console.log("Value: "+value);
             if (value === "searchState"){
                 //console.log("State");
                 document.getElementById("Searchbar").required = true;
