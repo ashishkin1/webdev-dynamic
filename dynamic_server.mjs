@@ -740,15 +740,13 @@ app.get('/search/info/:value/:value2', (req, res) => {
         <p><a href='/search/info/${searchRoute}/${encodeURIComponent(searchName)}'><button class='learnMoreButton'>View Again</button></a></p>
         </div>`);
     }
-    viewHistory.forEach((item) => {
-        if (item !== searchName){
-            viewHistory.push(searchName);
-            recentSearches.push(`<div class="boxResults cell">
-            <h4 class='bRTitle'>${searchName}</h4>
-            <p><a href='/search/info/${searchRoute}/${encodeURIComponent(searchName)}'><button class='learnMoreButton'>View Again</button></a></p>
-            </div>`);
-        }
-    });
+    if (!(viewHistory.includes(searchName))){
+        viewHistory.push(searchName);
+        recentSearches.push(`<div class="boxResults cell">
+        <h4 class='bRTitle'>${searchName}</h4>
+        <p><a href='/search/info/${searchRoute}/${encodeURIComponent(searchName)}'><button class='learnMoreButton'>View Again</button></a></p>
+        </div>`);
+    }
 
 
 
